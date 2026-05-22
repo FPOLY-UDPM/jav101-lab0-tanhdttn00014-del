@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    participant Browser as Client (Trình duyệt)
+    participant Servlet as Controller (Servlet)
+    participant Model as Model (Service/DAO)
+    participant DB as Database (Cơ sở dữ liệu)
+    participant JSP as View (JSP)
+
+    Browser->>Servlet: Gửi HTTP Request (GET/POST)
+    activate Servlet
+
+    Note over Servlet: Phân tích yêu cầu và điều phối
+
+    Servlet->>Model: Gọi logic xử lý/yêu cầu dữ liệu
+    activate Model
+
+    Model->>DB: Thực hiện truy vấn (SQL)
+    DB-->>Model: Trả về tập dữ liệu (ResultSet)
+
+    Model-->>Servlet: Trả về đối tượng/danh sách (Java Objects)
+    deactivate Model
+
+    Servlet->>Servlet: Lưu dữ liệu vào Request Scope (setAttribute)
+
+    Servlet->>JSP: Forward (chuyển tiếp) yêu cầu đến View
+    activate JSP
+
+    Note over JSP: Đọc dữ liệu từ Request và render HTML
+
+    JSP-->>Browser: Trả về trang HTML hoàn chỉnh (Response)
+    deactivate JSP
+    deactivate ServletF
